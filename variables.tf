@@ -1,5 +1,13 @@
 # Titan Environment Module - Variables
 
+variable addtl_tags {
+  type = map(string)
+  default = {}
+  description = <<-EOF
+    Additional tags to apply to all resources.
+  EOF
+}
+
 variable hub_account_id {
   default = ""
 

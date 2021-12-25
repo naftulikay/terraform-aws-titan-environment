@@ -16,13 +16,11 @@ resource aws_vpc_peering_connection hub {
     allow_remote_vpc_dns_resolution = true
   }
 
-  tags = {
-    Name = "${module.network.zone}:${var.hub_zone} Peering Connection"
-    titan_network = module.network.name
-    titan_zone = module.network.zone
-    titan_hub = var.hub_name
-    titan_hub_zone = var.hub_zone
-  }
+  tags = merge({
+      Name = "${module.network.zone}:${var.hub_zone} Peering Connection"
+      titan_network = module.network.name
+      titan_zone = module.network.zone
+    }, local.env_tags, local.hub_tags, var.addtl_tags)
 }
 
 resource aws_vpc_peering_connection_accepter hub {
@@ -32,11 +30,10 @@ resource aws_vpc_peering_connection_accepter hub {
   vpc_peering_connection_id = aws_vpc_peering_connection.hub.id
   auto_accept = true
 
-  tags = {
-    Name = "${module.network.zone}:${var.hub_zone} Peering Connection"
-    titan_network = module.network.name
-    titan_zone = module.network.zone
-    titan_hub = var.hub_name
-    titan_hub_zone = var.hub_zone
-  }
+  tags = merge({
+      Name = "${module.network.zone}:${var.hub_zone} Peering Connection",
+      titan_network = module.network.name
+      titan_zone = module.network.zone
+    }, local.env_tags, local.hub_tags, var.addtl_tags
+  )
 }
